@@ -27,7 +27,7 @@ class Separation():
         net.load_state_dict(dicts["model_state_dict"])
         self.logger = get_logger(__name__)
         self.logger.info('Load checkpoint from {}, epoch {: d}'.format(model, dicts["epoch"]))
-        self.net=net.cuda()
+        self.net=net
         self.device=torch.device('cuda:{}'.format(
             gpuid[0]) if len(gpuid) > 0 else 'cpu')
         self.gpuid=tuple(gpuid)
@@ -57,17 +57,20 @@ class Separation():
 def main():
     parser=argparse.ArgumentParser()
     parser.add_argument(
-        '-mix_wav', type=str, default='mix.wav', help='Path to mix scp file.')
+        '-mix_wav', type=str, default='./data/wav/mix.wav', help='Path to mix scp file.')
     parser.add_argument(
         '-yaml', type=str, default='./options/train/train.yml', help='Path to yaml file.')
     parser.add_argument(
-        '-model', type=str, default='./Conv-TasNet-non-pit-2/best.pt', help="Path to model file.")
+        '-model', type=str, default='best.pt', help="Path to model file.")
     parser.add_argument(
-        '-gpuid', type=str, default='0', help='Enter GPU id number')
+        '-gpuid', type=str, default='', help='Enter GPU id number')
     parser.add_argument(
         '-save_path', type=str, default='./non-pit-2', help='save result path')
     args=parser.parse_args()
-    gpuid=[int(i) for i in args.gpuid.split(',')]
+    gpuid=[]
+    # gpuid=[int(i) for i in args.gpuid.split(',')]
+    print("gpuid")
+    print(gpuid)
     separation=Separation(args.mix_wav, args.yaml, args.model, gpuid)
     separation.inference(args.save_path)
 

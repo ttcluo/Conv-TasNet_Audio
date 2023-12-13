@@ -1,6 +1,7 @@
 #import torchaudio
 import torch
 import librosa
+import soundfile as sf
 from utils import handle_scp
 
 
@@ -35,7 +36,8 @@ def write_wav(fname, src, sample_rate):
                None
     '''
     #torchaudio.save(fname, src, sample_rate)
-    librosa.output.write_wav(fname, src.numpy(), sample_rate)
+    # librosa.output.write_wav(fname, src.numpy(), sample_rate)
+    sf.write(fname, src.numpy(), sample_rate)
 
 
 class AudioReader(object):

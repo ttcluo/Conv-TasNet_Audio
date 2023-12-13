@@ -16,7 +16,7 @@ from utils import get_logger
 def main():
     # Reading option
     parser = argparse.ArgumentParser()
-    parser.add_argument('-opt', type=str, help='Path to option YAML file.')
+    parser.add_argument('-opt', type=str, default="./options/train/train.yml",help='Path to option YAML file.')
     args = parser.parse_args()
 
     opt = parse(args.opt, is_tain=True)
